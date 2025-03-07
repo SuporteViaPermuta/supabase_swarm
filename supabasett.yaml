@@ -11,7 +11,7 @@ services:
       - supabase-net
     healthcheck:
       test: >
-        node -e "require('http').get('http://localhost:3001/api/profile', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+        node -e "require('http').get('http://localhost:3000/api/profile', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
       timeout: 10s
       interval: 5s
       retries: 3
@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DEFAULT_ORGANIZATION_NAME: ${STUDIO_DEFAULT_ORGANIZATION}
       DEFAULT_PROJECT_NAME: ${STUDIO_DEFAULT_PROJECT}
-      SUPABASE_URL: http://kong:8001
+      SUPABASE_URL: http://kong:8000
       SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
@@ -55,7 +55,7 @@ services:
         - "traefik.http.routers.supabase-paill-at-https.middlewares=crowdsec@file"
         - "traefik.http.routers.supabase-paill-at-https.tls=true"
         - "traefik.http.routers.supabase-paill-at-https.tls.certresolver=le"
-        - "traefik.http.services.supabase-paill-at-https.loadbalancer.server.port=8001"
+        - "traefik.http.services.supabase-paill-at-https.loadbalancer.server.port=8000"
       placement:
         constraints: [node.labels.node-type == primary]
     environment:
@@ -251,7 +251,7 @@ services:
         constraints: [node.labels.node-type == primary]
     environment:
       JWT_SECRET: ${JWT_SECRET}
-      SUPABASE_URL: http://kong:8001
+      SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
       SUPABASE_DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
